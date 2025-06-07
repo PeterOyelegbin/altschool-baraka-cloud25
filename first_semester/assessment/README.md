@@ -1,9 +1,7 @@
 # Simple Calculator Web App
 
 ## Overview
-A simple calculator web application that performs basic arithmetic operations: addition, subtraction, multiplication, and division. The design matches the provided [figma design](https://www.figma.com/design/7sm61eN76smT5GPfy4K4TZ/Calculator-for-Desktop--Community-?node-id=0-1&t=eFvPziYibe3spHwv-1) exactly with a clean, functional interface.
-
-(figma design)[https://www.figma.com/design/7sm61eN76smT5GPfy4K4TZ/Calculator-for-Desktop--Community-?node-id=0-1&t=eFvPziYibe3spHwv-1]
+A simple calculator web application that performs basic arithmetic operations: addition, subtraction, multiplication, and division. The design matches the provided [Figma design](https://www.figma.com/design/7sm61eN76smT5GPfy4K4TZ/Calculator-for-Desktop--Community-?node-id=0-1&t=eFvPziYibe3spHwv-1) exactly with a clean, functional interface.
 
 ## Features
 - **Basic Operations**: Addition (+), Subtraction (-), Multiplication (×), Division (÷)
@@ -29,7 +27,7 @@ A simple calculator web application that performs basic arithmetic operations: a
 - Numbers: 0-9
 - Operators: +, -, *, /
 - Enter: = (equals)
-- Backspace: Delete last digit
+- Backspace: Delete the last digit
 - Period: Decimal point
 
 ## Future Enhancements

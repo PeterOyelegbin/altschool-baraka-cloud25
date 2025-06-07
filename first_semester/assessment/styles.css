@@ -29,7 +29,7 @@ body {
 .buttons {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 18px;
+    gap: 15px;
 }
 
 .btn {

@@ -34,6 +34,3 @@ A simple calculator web application that performs basic arithmetic operations: a
 - Implement calculation history
 - Add percentage and square root functions
 - Support for scientific notation
-
-## License
-This project is open source and available for anyone to use or modify.

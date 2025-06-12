@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 2: Huckleberry</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .header_container {
+        margin: 0 auto;
+        padding: 30px 80px;
+        height: 45vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header {
+        text-align: left;
+        padding: 45px 16px;
+        width: 60%;
+      }
+
+      .header > div {
+        width: 45%;
+      }
+
+      .header h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+      }
+
+      .header p {
+        font-size: 20px;
+        color: #777;
+        margin-bottom: 10px;
+      }
+
+      .header p a {
+        color: #01ceb9;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .content_container {
+        margin: 0 auto;
+        padding: 20px 80px;
+        background: #444;
+        height: 55vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        background: #eeee;
+        border-radius: 6px;
+        padding: 26px;
+        box-shadow: 0 4px 6px #0000;
+        width: 60%;
+        position: relative;
+      }
+
+      .card .highlight {
+        background: #f1b706;
+        color: #444;
+        font-weight: bold;
+        padding: 8px 30px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 16px;
+        position: absolute;
+        left: -10px;
+        top: 7px;
+      }
+
+      .details {
+        margin-top: 40px;
+      }
+
+      .card p {
+        font-size: 16px;
+        margin-bottom: 14px;
+      }
+
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+
+      @media (max-width: 768px) {
+        .header_container {
+          padding: 30px;
+          justify-content: left;
+        }
+
+        .header > div {
+          width: 100%;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+
+        .header p {
+          font-size: 16px;
+        }
+
+        .content_container {
+          padding: 30px 20px;
+          height: auto;
+        }
+
+        .card {
+          width: 100%;
+        }
+
+        .card p {
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header {
+          width: 100%;
+          padding: 40px 0;
+        }
+
+        .header > div {
+          width: 100%;
+        }
+
+        .header h1 {
+          font-size: 20px;
+        }
+
+        .header p {
+          font-size: 14px;
+        }
+
+        .card {
+          padding: 16px;
+          width: 100%;
+        }
+
+        .details {
+          margin-top: 60px;
+        }
+
+        .card p {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="header_container">
+      <div class="header">
+        <div>
+          <h1>Huckleberry</h1>
+          <p>
+            An avant-garde agency focused on connecting
+            <a href="#">passion</a> with <a href="#">logistics</a>.
+          </p>
+          <p>A better way to solve the problems of tomorrow.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content_container">
+      <div class="card">
+        <span class="highlight">Wealth comes from operations</span>
+        <div class="details">
+          <p>
+            No modern business can thrive without developing a specialization in
+            operations. Huckleberry has helped dozens of companies, from Fortune
+            50 monoliths to fast-growing Bay Area startups, achieve their goals
+            and meet their KPIs by leveraging our extensive network of logistics
+            experts.
+          </p>
+          <p>
+            Huckleberry was established in 2003 to help ambitious businesses
+            discover their true potential. If that resonates, let’s chat!
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

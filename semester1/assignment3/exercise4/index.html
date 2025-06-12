@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 4: Sign Up Form</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif, Verdana;
+        margin: 0;
+        padding: 0;
+        background-color: #eee;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        height: 100vh;
+        padding: 20px 100px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .logo {
+        margin-bottom: 20px;
+      }
+
+      .logo img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .header {
+        text-align: left;
+        margin-bottom: 20px;
+        width: 70%;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .header #mobile-content {
+        display: none;
+      }
+
+      .header #desktop-content {
+        display: block;
+      }
+
+      .header p {
+        font-size: 14px;
+        color: #555;
+      }
+
+      .card {
+        background: #fff;
+        box-shadow: 0 4px 10px #222;
+        border-radius: 8px;
+        padding: 50px;
+        flex: 1;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-control {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .form-control label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .form-control input,
+      .form-control select {
+        font-size: 14px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+      }
+
+      .form-control input:focus,
+      .form-control select:focus {
+        outline: 1px solid #31e6d3;
+      }
+
+      .form-actions {
+        text-align: center;
+      }
+
+      .form-actions button {
+        background-color: #31e6d3;
+        color: eee;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+        transition: all ease-in-out 300ms;
+      }
+
+      .form-actions button:hover {
+        background-color: #31e6d3;
+      }
+
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 20px;
+        color: #000;
+      }
+
+      .footer a {
+        color: #31e6d3;
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media screen and (max-width: 768px) {
+        body {
+          flex-direction: column;
+          padding: 20px;
+        }
+
+        .header {
+          width: 100%;
+        }
+
+        .header #mobile-content {
+          display: block;
+        }
+
+        .header #desktop-content {
+          display: none;
+        }
+
+        .container {
+          padding: 0;
+        }
+
+        .card {
+          padding: 20px;
+        }
+
+        .form-group {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- https://www.figma.com/file/URkPhPHkkWREdiIB21uvfE/Web-Development-Training?type=design&node-id=0%3A1&mode=design&t=KXSthmp0easnvUhR-1 -->
+    <div class="container">
+      <div class="logo">
+        <img src="./logo.svg" alt="Logo" />
+      </div>
+      <div class="header">
+        <h1>For Individuals</h1>
+        <p id="mobile-content">
+          Inspiring wholesome harmony for the mind, body and spirit, for
+          everyone, everywhere.
+        </p>
+        <p id="desktop-content">
+          Start benefiting from the wellness experience. For companies looking
+          on increasing productivity, and improving organization wellness.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <form>
+        <div class="form-group">
+          <div class="form-control">
+            <label for="first-name">First Name</label>
+            <input
+              type="text"
+              id="first-name"
+              placeholder="Enter your first name" />
+          </div>
+          <div class="form-control">
+            <label for="last-name">Last Name</label>
+            <input
+              type="text"
+              id="last-name"
+              placeholder="Enter your last name" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="">Select here</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="form-control">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control">
+            <label for="weight">Weight (KG)</label>
+            <input type="number" id="weight" placeholder="Enter Weight" />
+          </div>
+          <div class="form-control">
+            <label for="height">Height (CM)</label>
+            <input
+              type="number"
+              id="height"
+              placeholder="Enter height here.." />
+          </div>
+        </div>
+
+        <div class="form-control">
+          <label for="activity-level">Activity Level</label>
+          <select id="activity-level">
+            <option value="">Select here</option>
+            <option value="low">Low</option>
+            <option value="moderate">Moderate</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password" />
+        </div>
+        <div class="form-actions">
+          <button type="submit">Register</button>
+        </div>
+      </form>
+      <div class="footer">
+        By clicking Register, you agree to our
+        <a href="#">Terms of Use</a> and our <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </body>
+</html>

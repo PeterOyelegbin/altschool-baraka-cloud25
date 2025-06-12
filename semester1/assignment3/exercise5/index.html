@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 5: WP Pusher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+      *,
+      ::before,
+      ::after {
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Lato", Arial, sans-serif;
+        background-color: #eee;
+        color: #333;
+        padding-bottom: 80px;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        border-bottom: 2px solid #888;
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .nav-list {
+        list-style: none;
+        font-size: 0.9em;
+      }
+
+      .nav-list > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .btn {
+        border: 2px solid #333;
+        color: #333;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 40px 0 0 0;
+      }
+
+      .checkout-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px #000;
+        display: flex;
+        max-width: 960px;
+        width: 90%;
+        margin: 20px;
+      }
+
+      .checkout-form {
+        padding: 30px;
+        width: 60%;
+      }
+
+      .form-step {
+        margin: 40px 0;
+        padding-bottom: 30px;
+        border-bottom: 2px solid #eee;
+      }
+
+      .checkout-sidebar {
+        background-color: #1290e4;
+        color: #fff;
+        padding: 30px 40px;
+        width: 40%;
+        border-radius: 0 8px 8px 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group {
+        margin: 20px 0;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 0.9em;
+      }
+
+      .form-group input[type="text"],
+      .form-group input[type="email"] {
+        width: calc(100% - 12px);
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1em;
+      }
+
+      .name-fields {
+        display: flex;
+        gap: 15px;
+      }
+
+      .name-fields .form-group {
+        width: 50%;
+      }
+
+      .payment-info {
+        margin-top: 30px;
+      }
+
+      .payment-info label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 0.9em;
+      }
+
+      .payment-fields {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .payment-fields input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1em;
+      }
+
+      .payment-fields .card-number {
+        width: 60%;
+      }
+
+      .payment-fields .expiry {
+        width: 25%;
+      }
+
+      .payment-fields .cvc {
+        width: 15%;
+      }
+
+      .buy-button {
+        background-color: #02c4a7;
+        color: #fff;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1em;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 20px;
+      }
+
+      .buy-button:hover {
+        background-color: #02c4a7;
+      }
+
+      .help-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        margin-top: 15px;
+        color: #333;
+        font-size: 0.8em;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .help-link a {
+        color: #777;
+        text-decoration: underline;
+      }
+
+      .help-link a:hover {
+        text-decoration: none;
+      }
+
+      .step-indicator {
+        color: #1290e4;
+        font-weight: bold;
+        padding: 4px 8px;
+        border: 2px solid #1290e4;
+        border-radius: 50%;
+      }
+
+      /* Sidebar Styles */
+      .plan-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .plan-price {
+        font-size: 60px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .plan-price span {
+        font-size: 18px;
+        font-weight: normal;
+      }
+
+      .plan-features {
+        list-style: none;
+        padding: 0;
+        margin-top: 36px;
+        margin-bottom: 38px;
+      }
+
+      .plan-features li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 0.9em;
+        list-style-image: url('./CombinedShape.svg');
+        list-style-position: inside;
+        padding-left: 24px;
+      }
+
+      .plan-features li::before {
+        content: none;
+      }
+
+      .agency-link {
+        color: #fff;
+        text-decoration: underline;
+        font-size: 0.9em;
+      }
+
+      .agency-link:hover {
+        text-decoration: none;
+      }
+
+      .testimonial {
+        padding: 15px;
+        font-size: 18px;
+        font-style: italic;
+        font-weight: 400;
+        margin-top: 41px;
+        padding-top: 41px;
+        border-top: 2px solid #8888;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        margin-top: 17px;
+        font-style: italic;
+      }
+
+      .testimonial-author img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 8px;
+        object-fit: cover;
+      }
+
+      .powered-by {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .powered-by img {
+        height: 20px;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- https://www.figma.com/file/OJMDeEi2fWlPBFrlJFEgFx/wp-pusher-checkout?type=design&mode=design&t=KXSthmp0easnvUhR-1 -->
+    <nav>
+      <img src="./wppusher-logo.svg" class="logo" alt="logo" />
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        ">
+        <ul class="nav-content">
+          <li class="nav-list"><a href="/">Download</a></li>
+          <li class="nav-list"><a href="/">Learn more</a></li>
+          <li class="nav-list"><a href="/">Pricing</a></li>
+          <li class="nav-list"><a href="/">Help</a></li>
+        </ul>
+        <a href="/" class="btn">Account</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="checkout-container">
+        <form class="checkout-form">
+          <h2
+            style="
+              padding-bottom: 30px;
+              box-shadow: 0px 2px #eee;
+              font-size: 30px;
+              font-weight: 400;
+            ">
+            Checkout
+          </h2>
+          <div class="form-step">
+            <p style="font-weight: bold">
+              <span class="step-indicator">1</span> Your Basic Information
+            </p>
+            <div class="name-fields">
+              <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" placeholder="Jane" />
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" placeholder="Doe" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="janedoe@example.com" />
+            </div>
+          </div>
+
+          <div class="form-step payment-info">
+            <p style="font-weight: bold">
+              <span class="step-indicator">2</span> Your Payment Information
+            </p>
+            <div class="form-group">
+              <label for="credit-card">Credit Card</label>
+              <div class="payment-fields">
+                <input
+                  type="text"
+                  id="credit-card"
+                  class="card-number"
+                  placeholder="Card Number" />
+                <input type="text" class="expiry" placeholder="MM/YY" />
+                <input type="text" class="cvc" placeholder="CVC" />
+              </div>
+            </div>
+          </div>
+
+          <button class="buy-button">Buy WP Pusher</button>
+
+          <p class="help-link">
+            <img src="./Mask.svg" alt="help icon" />
+            Need any help?
+            <span style="font-weight: 500; color: #777"
+              >Don't hesitate to <a href="#">contact support!</a></span
+            >
+          </p>
+
+          <div class="powered-by">
+            <img src="./powered_by_stripe.svg" alt="" />
+          </div>
+        </form>
+
+        <div class="checkout-sidebar">
+          <div>
+            <h3 class="plan-title">Freelancer</h3>
+            <p class="plan-price">
+              <sup style="font-size: 24px">$</sup> 99 <span>/ year</span>
+            </p>
+
+            <p style="font-weight: 400; font-style: italic;">Automatically renews </br> after 1 year</p>
+
+            <ul class="plan-features">
+              <li>Use on 5 client sites</li>
+              <li>Private repositories</li>
+              <li>Email support</li>
+            </ul>
+
+            <p>
+              Need 20 client sites? </br>
+              <a href="#" class="agency-link">Switch to the Agency plan</a>
+            </p>
+          </div>
+
+          <div class="testimonial">
+            <p>FTP is horrible to deal with. WP Pusher solves that issue, and the customer support is awesome!</p>
+            <div class="testimonial-author">
+              <img src="./Bitmap.svg" alt="Kirk Beard" />
+              <span>Kirk Beard</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.8em;
+        color: #777;
+      ">
+      &copy; 2018 WP Pusher IVS -
+      <a href="#" style="color: #1976d2; text-decoration: none"
+        >Terms of Service</a
+      >
+    </footer>
+  </body>
+</html>

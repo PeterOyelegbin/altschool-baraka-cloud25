@@ -8,7 +8,7 @@ buttons.forEach((button) => {
     const value = button.textContent;
 
     if (button.classList.contains("number") || button.classList.contains("operator")) {
-      currentInput += value === '^' ? '**' : value;
+      currentInput += value === '^' ? '**' : value === "x" ? "*" : value === "÷" ? "/" : value === "%" ? "/100": value;
       display.textContent = currentInput;
     } else if (button.classList.contains("equal")) {
       try {

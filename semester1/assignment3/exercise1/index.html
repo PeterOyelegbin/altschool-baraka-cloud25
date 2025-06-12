@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 1: Otter Essay Card</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #080808;
+        font-family: Arial, sans-serif;
+      }
+
+      .card {
+        position: relative;
+        width: 320px;
+        background: #eeee;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 6px #080808;
+      }
+
+      .title {
+        position: absolute;
+        top: -10px;
+        width: 80%;
+        color: #080808;
+        background: #e6028b;
+        padding: 8px;
+        font-size: 24px;
+        font-weight: 700;
+        border-radius: 8px 8px;
+        text-align: center;
+      }
+
+      .content {
+        margin-top: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #080808;
+        line-height: 1.6;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="title">An Otter Essay</h1>
+      <h3 class="content">
+        Otters have long, slim bodies and relatively short limbs. Their most
+        striking anatomical features are the powerful webbed feet used to swim,
+        and their seal-like abilities holding breath underwater.
+      </h3>
+    </div>
+  </body>
+</html>

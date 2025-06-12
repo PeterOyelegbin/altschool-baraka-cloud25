@@ -19,18 +19,24 @@ This repository contains all assignments submitted for the AltSchool Africa Clou
 ### First Semester
 1. **Assignment 1: HTML Fundamentals**
    - Description: Basic HTML pages without CSS
-   - Directory: [Assignment1](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/Assignment1)
+   - Directory: [assignment1](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/semester1/assignment1)
    - Files: `index.html`
 
 2. **Assignment 2: HTML Fundamentals**
    - Description: Basic HTML pages without CSS
-   - Directory: [Assignment2](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/Assignment2)
+   - Directory: [assignment2](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/semester1/assignment2)
    - Files: `table.html`, `media.html`
      
-3. **Assignment 3:**
-   - Description: 
-   - Directory: ``
-   - Files: ``
+3. **Assignment 3: HTML and CSS**
+   - Description: HTML pages with CSS
+   - Directory: [assignment3](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/semester1/assignment3)
+   - Files: `exercise1/index.html`, `exercise2/index.html`, `exercise3/index.html`, `exercise4/index.html`, `exercise5/index.html`,`exercise6/index.html`
+
+4. **Assessment: Simple Calculator**
+   - Description: Simple calculator web application
+   - Directory: [assessment](https://github.com/PeterOyelegbin/altschool-baraka-cloud25/tree/main/semester1/assessment)
+   - Files: `index.html`
+   
 
 ### Second Semester
 1. **Assignment 4:**

@@ -1,0 +1,35 @@
+#!/bin/bash
+# Update system
+yum update -y
+
+# Install PostgreSQL
+amazon-linux-extras install postgresql14 -y
+yum install -y postgresql-server
+
+# Initialize PostgreSQL
+postgresql-setup initdb
+
+# Start and enable PostgreSQL
+systemctl start postgresql
+systemctl enable postgresql
+
+# Create database user and database
+sudo -u postgres psql -c "CREATE USER ${username} WITH PASSWORD '${password}';"
+sudo -u postgres psql -c "CREATE DATABASE techcorp_db OWNER ${username};"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE techcorp_db TO ${username};"
+
+# Configure PostgreSQL to allow connections
+echo "host techcorp_db ${username} 10.0.0.0/16 md5" >> /var/lib/pgsql/data/pg_hba.conf
+echo "listen_addresses = '*'" >> /var/lib/pgsql/data/postgresql.conf
+
+# Restart PostgreSQL
+systemctl restart postgresql
+
+# Create user for SSH access
+useradd -m -s /bin/bash ${username}
+echo "${username}:${password}" | chpasswd
+usermod -aG wheel ${username}
+
+# Configure SSH to allow password authentication
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+systemctl restart sshd

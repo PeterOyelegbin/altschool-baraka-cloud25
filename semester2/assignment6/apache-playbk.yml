@@ -1,0 +1,81 @@
+---
+- name: Setup Apache, PHP, and Configure index.php with Africa/Lagos timezone on Ubuntu/Debian
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+  vars:
+    timezone: "Africa/Lagos"          # Desired server timezone
+    web_root: "/var/www/html"         # Default Apache document root
+
+  tasks:
+    # Configure remote server with required Packages
+    - name: Ensure Python and six are installed on remote hosts
+      raw: |
+        apt-get update -y && \
+        apt-get install -y python3 python3-pip python3-six
+
+    # Update System Package Index
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600    # Avoid frequent updates if cache is fresh
+
+    # Install Apache & PHP Packages
+    - name: Install Apache and PHP
+      apt:
+        name:
+          - apache2
+          - php
+          - libapache2-mod-php
+          - php-cli
+          - php-common
+        state: present
+
+    # Ensure Apache Service is Running & Enabled on Boot
+    - name: Ensure Apache is enabled and started
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    # Detect PHP Version Dynamically
+    - name: Get PHP major.minor version
+      shell: "php -r 'echo PHP_MAJOR_VERSION.\".\".PHP_MINOR_VERSION;'"
+      register: php_version
+      changed_when: false
+      failed_when: php_version.stdout == ""
+
+    # Configure PHP Timezone in php.ini
+    - name: Configure PHP timezone
+      lineinfile:
+        path: "/etc/php/{{ php_version.stdout }}/apache2/php.ini"
+        regexp: '^;?date.timezone\s*='
+        line: "date.timezone = {{ timezone }}"
+        state: present
+      notify: Restart Apache
+
+    # Set index.php as the Default Landing Page in Apache
+    - name: Change Apache DirectoryIndex to index.php
+      lineinfile:
+        path: /etc/apache2/mods-enabled/dir.conf
+        regexp: '^\s*DirectoryIndex\s+'
+        line: "DirectoryIndex index.php index.html"
+        state: present
+      notify: Restart Apache
+
+    # Deploy Custom index.php File to the Web Root
+    - name: Copy index.php to the web server
+      copy:
+        src: ./index.php
+        dest: "{{ web_root }}/index.php"
+        mode: '0644'
+        owner: www-data
+        group: www-data
+
+  # Restart Apache When Required
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

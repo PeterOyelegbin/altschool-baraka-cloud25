@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Deployed by Ansible</title>
+    </head>
+    <body>
+        <p>Hi! My name is <strong>Peter Oyelegbin</strong>, Hello from Ansible at <strong id="clock"></strong></p>
+        <script>
+            function updateClock() {
+                const now = new Date();
+                document.getElementById("clock").textContent = now.toLocaleString();
+            }
+
+            setInterval(updateClock, 1000);
+            updateClock();
+    </script>
+    </body>
+</html>

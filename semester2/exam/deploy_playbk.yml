@@ -1,0 +1,78 @@
+---
+- name: Deploy web application to EC2 instances
+  hosts: webservers
+  become: yes
+  vars:
+    repo_url: "https://github.com/PeterOyelegbin/server-info-app.git"
+    web_root: "/usr/share/nginx/html"
+
+  tasks:
+    - name: Update system packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Install NGINX
+      dnf:
+        name: nginx
+        state: present
+
+    - name: Install Git
+      dnf:
+        name: git
+        state: present
+
+    - name: Start and enable NGINX service
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Clone GitHub repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "/tmp/webapp"
+        version: main
+        force: yes
+
+    - name: Deploy HTML files
+      copy:
+        src: "/tmp/webapp/index.html"
+        dest: "{{ web_root }}/index.html"
+        owner: nginx
+        group: nginx
+        mode: '0644'
+        remote_src: yes
+
+    - name: Get public IP from ifconfig.me
+      community.general.ipify_facts:
+        api_url: http://api.ipify.org
+      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Replace placeholder in HTML with public IP
+      ansible.builtin.replace:
+        path: "{{ web_root }}/index.html"
+        regexp: "SERVER_PUBLIC_IP"
+        replace: "{{ ansible_facts.ipify_public_ip }}"
+
+    - name: Set proper permissions on web root
+      file:
+        path: "{{ web_root }}"
+        owner: nginx
+        group: nginx
+        state: directory
+        recurse: yes
+
+    - name: Ensure NGINX configuration allows proper access
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^\\s*server_name'
+        line: '    server_name _;'
+        backrefs: yes
+
+    - name: Restart NGINX to apply changes
+      systemd:
+        name: nginx
+        state: restarted
+        

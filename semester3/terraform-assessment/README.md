@@ -8,7 +8,7 @@ TechCorp is launching a new web application that needs:
 - Load balancing for web traffic
 - Bastion host for secure administrative access
 - Scalable architecture that can grow with the business
-[View more detialed requirements](./Requirements.md)
+[View more detailed requirements](./Requirements.md)
 
 ---
 
@@ -20,13 +20,13 @@ terraform init
 
 2. Validate and see plan:
 ```bash
-terraform plan -var-file="terraform.tfvars"
+terraform plan
 ```
 ![terraform_plan](./evidence/terraform-plan.png)
 
 3. Apply:
 ```bash
-terraform apply -var-file="terraform.tfvars"
+terraform apply
 ```
 **Note: Approve the apply prompt or add -auto-approve if you understand the changes.**
 ![terraform_apply](./evidence/terraform-apply.png)

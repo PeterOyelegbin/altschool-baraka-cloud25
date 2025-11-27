@@ -1,0 +1,84 @@
+---
+- name: Setup Apache, create index.html, configure timezone to Africa/Lagos, and setup firewall to allow port 80
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+  vars:
+    timezone: Africa/Lagos
+    web_root: /var/www/html
+
+  tasks:
+    # Ensure Python is installed (for Ansible to work on minimal images)
+    - name: Ensure Python is installed (RedHat/CentOS)
+      raw: |
+        dnf install -y python3 python3-pip python3-six || \
+        yum install -y python3 python3-pip python3-six
+
+    # Update system package cache
+    - name: Update yum/dnf package cache (RedHat/CentOS)
+      dnf:
+        update_cache: yes
+
+    # Install Apache
+    - name: Install Apache (RedHat/CentOS)
+      dnf:
+        name: httpd
+        state: present
+
+    # Set system timezone
+    - name: Set timezone to Africa/Lagos
+      timezone:
+        name: "{{ timezone }}"
+
+    # Ensure Apache is running and enabled
+    - name: Ensure Apache service is running (RedHat/CentOS)
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    # Ensure web root directory exists
+    - name: Ensure web root exists (RedHat/CentOS)
+      file:
+        path: "{{ web_root }}"
+        state: directory
+        mode: '0755'
+        owner: apache
+        group: apache
+
+    # Copy index.html to the server
+    - name: Copy index.html file to web root (RedHat/CentOS)
+      copy:
+        src: ./index.html
+        dest: "{{ web_root }}/index.html"
+        mode: '0644'
+        owner: apache
+        group: apache
+
+    # Install firewall
+    - name: Ensure firewalld is installed (RedHat/CentOS)
+      yum:
+        name: firewalld
+        state: present
+
+    # Ensure firewall is running and enabled
+    - name: Ensure firewalld is running and enabled (RedHat/CentOS)
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    # Allow port 80
+    - name: Open port 80/tcp permanently (RedHat/CentOS)
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+  handlers:
+    - name: Restart Apache (RedHat/CentOS)
+      service:
+        name: httpd
+        state: restarted

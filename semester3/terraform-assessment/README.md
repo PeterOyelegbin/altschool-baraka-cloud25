@@ -40,7 +40,15 @@ terraform apply
 ---
 
 ## Verify Deployment
-1. ALB serving web content
+1. AWS Console showing created resources
+    - ![aws-vpc-created](./evidence/aws-vpc-evidence.png)
+    - ![aws-subnet-created](./evidence/aws-subnet-evidence.png)
+    - ![aws-instance-created](./evidence/aws-instance-evidence.png)
+    - ![aws-security-group-created](./evidence/aws-security-group-evidence.png)
+    - ![aws-load-balancer-created](./evidence/aws-load-balancer-evidence.png)
+    - ![aws-target-group-created](./evidence/aws-target-group-evidence.png)
+
+2. ALB serving web content
 This displays both web content 1 and web content 2 simultaneously on reload.
 ![load_balancer_web1](./evidence/load-balancer-web1.png)
 ![load_balancer_web2](./evidence/load-balancer-web2.png)

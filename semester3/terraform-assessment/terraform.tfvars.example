@@ -1,0 +1,9 @@
+region               = "us-west-2"
+resource_prefix      = "lab-techcorp"
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
+web_server_username  = "webadmin"
+web_server_password  = "WebServerPass123!"
+db_username          = "dbadmin"
+db_password          = "DbServerPass123!"

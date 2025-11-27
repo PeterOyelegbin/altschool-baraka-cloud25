@@ -3,6 +3,11 @@ output "vpc_id" {
   value       = aws_vpc.vpc.id
 }
 
+output "alb_dns_name" {
+  description = "DNS name of Application Load Balancer"
+  value       = aws_lb.web_alb.dns_name
+}
+
 output "bastion_host_public_ip" {
   description = "Public IP of Bastion host"
   value       = aws_instance.bastion_host.public_ip
@@ -18,11 +23,6 @@ output "database_server_private_ip" {
   value       = aws_instance.database_server.private_ip
 }
 
-output "alb_dns_name" {
-  description = "DNS name of Application Load Balancer"
-  value       = aws_lb.web_alb.dns_name
-}
-
 output "ssh_key_files" {
   description = "Paths to the generated SSH key files"
   value = {
@@ -34,17 +34,17 @@ output "connection_instructions" {
   description = "Instructions to connect to instances"
   value       = <<EOT
 Connection Instructions:
-1. Connect to Bastion Host:
+1. Access Web Application:
+   http://${aws_lb.web_alb.dns_name}
+   
+2. Connect to Bastion Host:
    ssh -i ${local_file.private_key.filename} ec2-user@${aws_instance.bastion_host.public_ip}
 
-2. From Bastion, connect to Web Servers:
+3. From Bastion, connect to Web Servers:
    ssh ${var.web_server_username}@<web-server-private-ip>
 
-3. From Bastion, connect to Database Server:
+4. From Bastion, connect to Database Server:
    ssh ${var.db_username}@${aws_instance.database_server.private_ip}
-
-4. Access Web Application:
-   http://${aws_lb.web_alb.dns_name}
 
 5. Database Connection:
    mysql -h ${aws_instance.database_server.private_ip} -u ${var.db_username} -p techcorp_db

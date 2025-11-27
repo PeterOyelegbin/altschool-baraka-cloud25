@@ -22,6 +22,10 @@ echo "<!DOCTYPE html>
 </body>
 </html>" > /var/www/html/index.html
 
+# Install MySQL Client
+amazon-linux-extras install epel -y
+yum install -y mysql
+
 # Create user for SSH access (alternative to key-based SSH)
 useradd -m -s /bin/bash ${username}
 echo "${username}:${password}" | chpasswd
@@ -30,6 +34,3 @@ usermod -aG wheel ${username}
 # Configure SSH to allow password authentication
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 systemctl restart sshd
-
-# Install stress tool for testing (optional)
-yum install -y stress

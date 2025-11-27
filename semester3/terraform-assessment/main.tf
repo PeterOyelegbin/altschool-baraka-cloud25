@@ -285,8 +285,8 @@ resource "aws_instance" "bastion_host" {
   associate_public_ip_address = true
 
   user_data = <<-EOF
-    #!/bin/bash
-    dnf update -y
+  #!/bin/bash
+  dnf update -y
   EOF
 
   tags = {

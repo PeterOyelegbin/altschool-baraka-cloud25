@@ -8,103 +8,79 @@ TechCorp is launching a new web application that needs:
 - Load balancing for web traffic
 - Bastion host for secure administrative access
 - Scalable architecture that can grow with the business
+[View more detialed requirements](./Requirements.md)
 
 ---
 
-## Technical Requirements
-You must create Terraform configurations to provision the following AWS infrastructure:
-1. Virtual Private Cloud (VPC)
-    - VPC with CIDR block 10.0.0.0/16
-    - Name tag: techcorp-vpc
-    - Enable DNS hostnames and DNS support
+## Deployment steps
+1. Initialize Terraform:
+```bash
+terraform init
+```
 
-2. Subnets
-Create the following subnets in two different availability zones:
-    - Public Subnets:
-        * techcorp-public-subnet-1 – CIDR: 10.0.1.0/24
-        * techcorp-public-subnet-2 – CIDR: 10.0.2.0/24
-    - Private Subnets:
-        * techcorp-private-subnet-1 – CIDR: 10.0.3.0/24
-        * techcorp-private-subnet-2 – CIDR: 10.0.4.0/24
+2. Validate and see plan:
+```bash
+terraform plan -var-file="terraform.tfvars"
+```
+![terraform_plan](./evidence/terraform-plan.png)
 
-3. Internet Gateway & NAT Gateways
-    - Internet Gateway attached to the VPC
-    - NAT Gateway in each public subnet for private subnet internet access
-    - Appropriate route tables and associations
+3. Apply:
+```bash
+terraform apply -var-file="terraform.tfvars"
+```
+**Note: Approve the apply prompt or add -auto-approve if you understand the changes.**
+![terraform_apply](./evidence/terraform-apply.png)
 
-4. Security Groups
-    - Web Security Group: Allow HTTP (80), HTTPS (443) from anywhere, SSH (22) from Bastion Security Group.
-    - Database Security Group: Allow MySQL (3306) only from web security group Allow SSH(22) from Bastion Security Group.
-    - Bastion Security Group: Allow SSH (22) from your current IP address only
-
-5. EC2 Instances
-    - Bastion Host:
-        * t3.micro instance in public subnet
-        * Use Amazon Linux 2 AMI
-        * Associate Elastic(Public) IP
-    - Web Servers:
-        * 2x t3.micro instances (one in each private subnet)
-        * Use Amazon Linux 2 AMI
-        * Install Apache web server (user data script)
-    - Database Server:
-        * 1x t3.small instance in private subnet
-        * Use Amazon Linux 2 AMI
-        * Install PostgresDB using (user data script)
-**NOTE: Setup Access from Bastion to Web and Dev servers using username and password. Usage of ssh keys is an optional alternative.**
-
-6. Application Load Balancer
-    - Application Load Balancer in public subnets
-    - Target group pointing to web servers
-    - Health check configuration
-7. Variables and Outputs
-    - Use variables for: region, instance types, key pair name, your IP address
-    - Output: VPC ID, Load Balancer DNS name, Bastion public IP
+4. After apply completes:
+    - Outputs printed include vpc_id, alb_dns_name, and bastion_public_ip.
+    - ALB DNS (http) should serve the simple HTML page created by the web servers.
+    - Use the bastion host to SSH into private web and db servers.
+    ![terraform_output](./evidence/terraform-output.png)
 
 ---
 
-## Submission Requirements
-Required Files Structure:
-terraform-assessment/
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── terraform.tfvars.example
-├── user_data/
-│   └── web_server_setup.sh
-│   └── db_server_setup.sh
-└── README.md
+## Verify Deployment
+1. ALB serving web content
+This displays both web content 1 and web content 2 simultaneously on reload.
+![load_balancer_web1](./evidence/load-balancer-web1.png)
+![load_balancer_web2](./evidence/load-balancer-web2.png)
 
-1. Terraform Configuration Files
-    - main.tf: All resource definitions
-    - variables.tf: Variable declarations with descriptions and default values
-    - outputs.tf: Output definitions
-    - terraform.tfvars.example: Example variable values (without sensitive data)
-2. User Data Script
-    - user_data/web_server_setup.sh: Script to install and configure Apache
-    - Should install Apache, enable it, and create a simple HTML page showing the instance ID
-    - user_data/db_server_setup.sh: Script to install and configure Apache
-    - Should install and setup Postgres DB
-3. Documentation
-    - README.md: Instructions on how to deploy and destroy the infrastructure
-    - Include prerequisites, deployment steps, and cleanup instructions
-4. Deployment Evidence
-    - Screenshots of:
-        * Terraform plan output
-        * Terraform apply completion
-        * AWS Console showing created resources
-        * Load balancer serving web pages from both instances
-        * SSH access through bastion host
-        * SSH access to the Web and DB servers.
-        * Connect to the postgres instance on the DB server
-        * Web access to the Web servers via the ALB URL(must be visible in the screenshot).
-5. Terraform State
-    - Export terraform state file (terraform.tfstate) – ensure no sensitive data is exposed
+2. SSH into bastion
+```bash
+ssh -i /path/to/key.pem ec2-user@<bastion_public_ip>
+```
+![bastion_ssh_connection](./evidence/bastion-ssh-connection.png)
+
+3. From bastion, SSH into a web server (private IP visible in AWS Console)
+```bash
+ssh ec2-user@<web_private_ip>
+```
+**Note: Use the web_password you set**
+![web_server1_ssh_connection](./evidence/web-server1-ssh-connection.png)
+![web_server2_ssh_connection](./evidence/web-server2-ssh-connection.png)
+
+4. Database access
+From the web server, connect to Postgres:
+```bash
+mysql -h 10.0.3.x -u techcorpuser -p techcorp_db
+```
+**password: value of db_password**
+![web1_to_db_connection](./evidence/web1-to-db-connection.png)
+![web2_to_db_connection](./evidence/web2-to-db-connection.png)
+
+5. From bastion, SSH into a Db server (private IP visible in AWS Console)
+```bash
+ssh ec2-user@<db_private_ip>
+```
+**Note: Use the db_password you set**
+![db_server_ssh_connection](./evidence/db-server-ssh-connection.png)
 
 ---
 
-## Submission Guidelines
-- Submission Method:
-    * Create a GitHub repository named month-one-assessment
-    * Upload all required files following the specified structure
-    * Include deployment evidence in a folder named evidence/
-- [Assessment Document](https://docs.google.com/document/d/1pgQZnvYxnnnTjJTaAxLC5mfLeMbDbapHj24218f71SE/edit?tab=t.0)
+## Cleanup / Destroy
+To remove everything:
+```bash
+terraform destroy
+```
+Confirm the destroy prompt or append -auto-approve.
+![terraform_destroy](./evidence/terraform-destroy.png)
